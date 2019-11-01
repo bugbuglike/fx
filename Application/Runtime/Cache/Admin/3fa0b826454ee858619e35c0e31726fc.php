@@ -1,0 +1,169 @@
+<?php if (!defined('THINK_PATH')) exit();?><div class="row">
+    <div class="col-lg-12">
+        <div class="widget-container fluid-height clearfix">
+            <div class="widget-content padded">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="widget-container fluid-height" style="box-shadow: 0 0px 0px rgba(0, 0, 0, 0);">
+                            <div class="heading tabs" style="background: transparent;">
+                                <ul class="nav nav-tabs pull-left" data-tabs="tabs" id="tabs">
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#tab1"><i class="icon-user"></i><span>会员卡充值规则</span></a>
+                                    </li>
+                                    <li class="">
+                                        <a data-toggle="tab" href="#tab2"><i class="icon-user"></i><span>添加会员卡充值规则</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content padded" id="my-tab-content">
+                                <div class="tab-pane active" id="tab1">
+                                    <h3>
+                                        会员卡充值规则
+                                    </h3>
+
+                                    <p>
+
+                                    <div class="widget-content padded clearfix">
+                                        <table class="table table-hover" style="margin-bottom: 12px">
+                                            <thead>
+                                            <th class="check-header hidden-xs">
+                                                <label><input id="checkAll" name="checkAll"
+                                                              type="checkbox"><span></span></label>
+                                            </th>
+                                            <th>
+                                                ID
+                                            </th>
+                                            <th>
+                                                充值金额
+                                            </th>
+                                            <th>
+                                                赠送比例
+                                            </th>
+                                            <th class="hidden-xs">
+                                                时间
+                                            </th>
+                                            <th class="hidden-xs">
+                                                操作
+                                            </th>
+                                            </thead>
+                                            <tbody>
+                                            <?php if(is_array($rules)): $i = 0; $__LIST__ = $rules;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$rules): $mod = ($i % 2 );++$i;?><tr>
+                                                    <td class="check hidden-xs">
+                                                        <label><input name="optionsRadios1" type="checkbox"
+                                                                      value="option1"><span></span></label>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo ($rules["id"]); ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo ($rules["money"]); ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo ($rules["handsel"]); ?>%
+                                                    </td>
+                                                    <td class="hidden-xs">
+                                                        <?php echo ($rules["time"]); ?>
+                                                    </td>
+                                                    <td class="hidden-xs">
+                                                        <style type="text/css">
+                                                            .action-buttons > a {
+                                                                margin-left: 5px;
+                                                            }
+                                                        </style>
+                                                        <div class="action-buttons" style="cursor: pointer;">
+                                                            <a class="table-actions"
+                                                               onclick="openTab('<?php echo U('Admin/Card/getRules');?>','<?php echo ($rules["id"]); ?>')">修改</a><a class="table-actions" href="<?php echo U('Admin/Card/delRules');?>" data-type="del" data-ajax="<?php echo U('Admin/Card/delRules',array('id'=>$rules['id']));?>">删除</a>
+                                                        </div>
+                                                    </td>
+                                                </tr><?php endforeach; endif; else: echo "" ;endif; ?>
+                                            </tbody>
+                                        </table>
+                                        <?php echo ($page); ?>
+                                    </div>
+                                    </p>
+                                </div>
+                                <div class="tab-pane" id="tab2">
+                                    <h3>
+                                        添加会员卡充值规则
+                                    </h3>
+
+                                    <p>
+
+                                    <form action="<?php echo U('Admin/Card/addRules');?>" id="myForm" method="post"
+                                          onsubmit="return false;" class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">充值金额</label>
+
+                                            <div class="col-md-7">
+                                                <input class="form-control" placeholder="" value=""
+                                                       name="money" type="text">
+                                                <input class="form-control" placeholder="" value="0"
+                                                       name="id" type="hidden">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">赠送比例</label>
+
+                                            <div class="col-md-7">
+                                                <input class="form-control" placeholder="" value=""
+                                                       name="handsel" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2"></label>
+
+                                            <div class="col-md-7">
+                                                <button class="btn btn-primary" type="submit">提交
+                                                </button>
+                                                <button class="btn btn-default-outline">取消</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function openTab(url , id){
+        $.ajax({
+            type: "post",
+            url: url,
+            data: {
+                id: id
+            },
+            success: function (data) {
+                $('#tabs li').eq(1).children().click();
+                var json = eval(data);
+                $('input[name="money"]').val(json.money);
+                $('input[name="handsel"]').val(json.handsel);
+                $('input[name="id"]').val(json.id);
+
+            },
+            beforeSend: function () {
+                $("#popover-loader").show();
+            },
+            complete: function () {
+                $("#popover-loader").hide();
+            }
+        });
+    }
+
+    $('#myForm').bootstrapValidator({
+        submitHandler: function(validator, form, submitButton) {
+            var tourl = "<?php echo U('Admin/Card/addRules');?>";
+            var data = $('#myForm').serialize();
+            $.App.ajax('post', tourl, data, function(){
+                $('#refresh-toggler').click();
+            });
+            return false;
+        },
+    });
+</script>

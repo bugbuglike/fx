@@ -1,0 +1,4 @@
+<?php if (!defined('THINK_PATH')) exit();?><li><i class="fa fa-home"></i><a href="<?php echo U('Admin/Index/main');?>" data-loader = "App-loader" data-loadername = "主控面板">首页</a></li>
+<?php if(is_array($bread)): $i = 0; $__LIST__ = $bread;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i; if($i == count($bread)): ?><li class="active"><?php echo ($vo["name"]); ?></li>
+	<?php else: ?>
+	<li><a href="<?php echo ($vo["url"]); ?>" data-loader="App-loader" data-loadername="<?php echo ($vo["name"]); ?>"><?php echo ($vo["name"]); ?></a></li><?php endif; endforeach; endif; else: echo "" ;endif; ?>

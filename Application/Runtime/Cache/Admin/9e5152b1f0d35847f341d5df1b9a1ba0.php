@@ -1,0 +1,3 @@
+<?php if (!defined('THINK_PATH')) exit();?><div style="text-align: center; width: 570px; overflow: hidden;">
+<?php if(is_array($cache)): $i = 0; $__LIST__ = $cache;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><img src="/Upload/<?php echo ($vo["savepath"]); echo ($vo["savename"]); ?>" width="100%" /><br><br><?php endforeach; endif; else: echo "" ;endif; ?>
+</div>
